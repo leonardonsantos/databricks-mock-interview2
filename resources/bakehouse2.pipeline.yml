@@ -1,0 +1,21 @@
+resources:
+  pipelines:
+    bakehouse2_pipeline:
+      name: bakehouse2_pipeline
+      catalog: ${var.catalog}
+      schema: bronze
+      root_path: ../src/pipelines/bakehouse2
+      libraries:
+        - glob:
+            include: ../src/pipelines/bakehouse2/transformations/**
+      configuration:
+        catalog: ${var.catalog}
+        source_schema: ${var.source_schema}
+      event_log:
+        catalog: ${var.catalog}
+        schema: bronze
+        name: bakehouse2_pipeline_event_log
+      serverless: true
+      photon: true
+      channel: CURRENT
+      continuous: false

@@ -1,0 +1,32 @@
+# bakehouse2: bakery franchise medallion pipeline on Lakeflow Spark Declarative Pipelines.
+bundle:
+  name: bakehouse2
+
+include:
+  - resources/*.yml
+
+sync:
+  exclude:
+    - .github
+    - .ai-dev-kit
+
+variables:
+  catalog:
+    description: Unity Catalog catalog holding the bronze/silver/gold schemas
+    default: workspace
+  source_schema:
+    description: Source dataset (read-only Databricks sample)
+    default: samples.bakehouse
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-ce7faa09-f818.cloud.databricks.com
+
+  prod:
+    mode: production
+    workspace:
+      host: https://dbc-ce7faa09-f818.cloud.databricks.com
+      root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}
